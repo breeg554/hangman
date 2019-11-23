@@ -13,10 +13,11 @@ class Game {
         this.buttonStartGame = document.querySelector(".start-game");
         this.randomDigit;
         this.attempts = 5;
-        this.questions = ['adam małysz', 'król lew', 'pies który jeździł koleją', 'brzydkie kaczątko', 'Fiat', 'piłkna nożna', 'super mario', 'talerz'];
-        this.category = ['Polscy sportowcy', 'Tytuł bajki', 'Tytuł książki', 'Postać z bajki', 'Marka samochodu', 'Kategoria sportowa', 'Postać z gry', 'Przedmiot kuchenny'];
+        this.questions = ['adam małysz', 'król lew', 'pies który jeździł koleją', 'brzydkie kaczątko', 'Fiat', 'piłkna nożna', 'super mario', 'talerz', 'pantofle'];
+        this.category = ['Polscy sportowcy', 'Tytuł bajki', 'Tytuł książki', 'Postać z bajki', 'Marka samochodu', 'Kategoria sportowa', 'Postać z gry', 'Przedmiot kuchenny', 'Rodzaj obuwia'];
         this.randomQuestion = '';
         this.confrimLetter = 0;
+        this.spaceLetter = 0;
         this.createLetters();
         this.addLettersDisabled();
         this.buttonStartGame.addEventListener('click', () => this.startGame());
@@ -72,20 +73,20 @@ class Game {
                 this.checkLetter(button);
                 button.disabled = true;
             })
-            // button.addEventListener('touchend', () => {
-            //     button.classList.add('cliked');
-            //     this.checkLetter(button);
-            //     button.disabled = true;
-            // })
+
 
             this.lettersBox.appendChild(button);
         })
     }
-    drawBar(howMany) {
-
-        for (let i = 0; i < howMany; i++) {
+    drawBar() {
+        const letters = this.randomQuestion.split('');
+        for (let i = 0; i < letters.length; i++) {
             const sentenceEl = document.createElement('div');
             sentenceEl.classList.add('sentenceEl');
+            if (letters[i] === ' ') {
+                sentenceEl.classList.add('sentenceEl--space');
+                this.spaceLetter++;
+            }
             this.searchingText.appendChild(sentenceEl);
         }
     }
@@ -133,17 +134,16 @@ class Game {
         this.randomDigit = Math.floor(Math.random() * this.questions.length);
         this.categoryBox.innerHTML = "Kategoria: " + this.category[this.randomDigit];
         this.randomQuestion = this.questions[this.randomDigit];
-        this.randomQuestion = this.randomQuestion.replace(/ /g, '');
-        console.log(this.randomQuestion);
-        this.drawBar(this.randomQuestion.length);
+        this.drawBar();
     }
 
     clearRandomSentence() {
+        this.spaceLetter = 0;
         this.confrimLetter = 0;
         this.searchingText.textContent = '';
     }
     isAllLettersConfirm() {
-        if (this.confrimLetter === this.randomQuestion.length) {
+        if (this.confrimLetter === this.randomQuestion.length - this.spaceLetter) {
             return true;
         } else {
             return false;
