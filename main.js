@@ -72,11 +72,11 @@ class Game {
                 this.checkLetter(button);
                 button.disabled = true;
             })
-            button.addEventListener('touchend', () => {
-                button.classList.add('cliked');
-                this.checkLetter(button);
-                button.disabled = true;
-            })
+            // button.addEventListener('touchend', () => {
+            //     button.classList.add('cliked');
+            //     this.checkLetter(button);
+            //     button.disabled = true;
+            // })
 
             this.lettersBox.appendChild(button);
         })
