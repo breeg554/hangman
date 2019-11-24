@@ -141,11 +141,15 @@ class Game {
         localStorage.setItem('games', this.allGames);
     }
     createStorage() {
-        if (localStorage.getItem('wins') === null || localStorage.getItem('games') === null) {
+        if (localStorage.getItem('wins') === null) {
             localStorage.setItem("wins", '0')
-            localStorage.setItem('games', '0')
+
         } else {
             this.allWins = localStorage.getItem('wins');
+
+        } if (localStorage.getItem('games') === null) {
+            localStorage.setItem('games', '0')
+        } else {
             this.allGames = localStorage.getItem('games');
         }
     }
@@ -194,8 +198,8 @@ class Game {
     }
 
     startGame() {
-        // this.createStorage();
-        // this.writeStorage();
+        this.createStorage();
+        this.writeStorage();
         this.clearCanvas();
         this.attempts = 5;
         this.removeLettersDisabled();
@@ -208,5 +212,5 @@ class Game {
 
 
 const game = new Game();
-game.createStorage();
-game.writeStorage();
+// game.createStorage();
+// game.writeStorage();
