@@ -24,6 +24,8 @@ class Game {
         this.allGames = 0;
         this.createLetters();
         this.addLettersDisabled();
+        this.createStorage();
+        this.writeStorage();
         this.buttonStartGame.addEventListener('click', () => this.startGame());
 
     }
@@ -212,5 +214,4 @@ class Game {
 
 
 const game = new Game();
-game.createStorage();
-game.writeStorage();
+
