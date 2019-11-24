@@ -212,5 +212,5 @@ class Game {
 
 
 const game = new Game();
-// game.createStorage();
-// game.writeStorage();
+game.createStorage();
+game.writeStorage();
