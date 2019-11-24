@@ -11,6 +11,8 @@ class Game {
         this.availableAttempts = document.querySelector(".attempts");
         this.categoryBox = document.querySelector(".category");
         this.buttonStartGame = document.querySelector(".start-game");
+        this.allWinsBox = document.querySelector(".wins");
+        this.allGamesBox = document.querySelector(".games");
         this.randomDigit;
         this.attempts = 5;
         this.questions = ['adam małysz', 'król lew', 'pies który jeździł koleją', 'brzydkie kaczątko', 'Fiat', 'piłkna nożna', 'super mario', 'talerz', 'pantofle'];
@@ -18,10 +20,12 @@ class Game {
         this.randomQuestion = '';
         this.confrimLetter = 0;
         this.spaceLetter = 0;
+        this.allWins = 0;
+        this.allGames = 0;
         this.createLetters();
         this.addLettersDisabled();
         this.buttonStartGame.addEventListener('click', () => this.startGame());
-        // this.buttonStartGame.addEventListener('touchend', () => this.startGame());
+
     }
     drawHangman() {
         if (this.attempts === 4) {
@@ -128,7 +132,29 @@ class Game {
             children[i].classList.add('cliked');
         }
     }
-
+    addWinToStorage() {
+        this.allWins++;
+        localStorage.setItem('wins', this.allWins);
+    }
+    addGamesToStorage() {
+        this.allGames++;
+        localStorage.setItem('games', this.allGames);
+    }
+    createStorage() {
+        if (localStorage.getItem('wins') === null || localStorage.getItem('games') === null) {
+            localStorage.setItem("wins", '0')
+            localStorage.setItem('games', '0')
+        } else {
+            this.allWins = localStorage.getItem('wins');
+            this.allGames = localStorage.getItem('games');
+        }
+    }
+    writeStorage() {
+        this.allGamesBox.innerHTML = '';
+        this.allWinsBox.innerHTML = '';
+        this.allGamesBox.innerHTML = `Wszystkie rozegrane: ${this.allGames}`;
+        this.allWinsBox.innerHTML = `Wszystkie wygrane: ${this.allWins}`;
+    }
     randomSentence() {
         this.clearRandomSentence();
         this.randomDigit = Math.floor(Math.random() * this.questions.length);
@@ -152,17 +178,24 @@ class Game {
     gameOver() {
 
         this.addLettersDisabled();
+        this.addGamesToStorage();
+        this.writeStorage();
         alert('You Lose!')
     }
 
     winGame() {
         if (this.attempts > 0 && this.isAllLettersConfirm()) {
             this.addLettersDisabled();
+            this.addWinToStorage();
+            this.addGamesToStorage();
+            this.writeStorage();
             alert('You Win!')
         }
     }
 
     startGame() {
+        // this.createStorage();
+        // this.writeStorage();
         this.clearCanvas();
         this.attempts = 5;
         this.removeLettersDisabled();
@@ -175,3 +208,5 @@ class Game {
 
 
 const game = new Game();
+game.createStorage();
+game.writeStorage();
